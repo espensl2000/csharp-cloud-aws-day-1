@@ -15,7 +15,7 @@
 For this exercise you should get a a backend and database working in AWS. You can create something simple and new or you may use an existing application, e.g. the cinema challenge and build a simple front end using technology you choose. You should build using the following approach:
 
 - Back end API using C# and the `dotnet new webapi` template with at least 1 endpoint
-- Database using PostgresSQL hosted in Azure
+- Database using PostgresSQL hosted in AWS
 - Build you application `dotnet publish -c Release -o out`
 - Compress your application 
 - Deploying your Application to AWS follow the next steps
