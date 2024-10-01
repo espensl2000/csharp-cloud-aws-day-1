@@ -1,4 +1,4 @@
-# C# Cloud AWS Day One
+# C# Cloud AWS - Day One
 
 ## Learning Objectives
 
