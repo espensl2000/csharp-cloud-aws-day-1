@@ -46,7 +46,7 @@
 
 ```json
    "ConnectionStrings": {
-       "DefaultConnection": "Host=mydbinstance.endpoint;Database=mydatabase;Username=myadmin;Password=mypassword"
+       "DefaultConnection": "Host=mydbinstance.endpoint;Database=mydatabase;User Id=myadmin;Password=mypassword"
    }
 ```
 
