@@ -37,7 +37,7 @@
 3. **Update `appsettings.json`:**
 ```json
    "ConnectionStrings": {
-       "DefaultConnection": "Host=mydbinstance.endpoint;Database=mydatabase;Username=myadmin;Password=mypassword"
+       "DefaultConnection": "Host=mydbinstance.endpoint;Database=mydatabase;User Id=myadmin;Password=mypassword"
    }
 ```
 4. **Add Required Packages:**
@@ -48,14 +48,14 @@ dotnet add package Microsoft.EntityFrameworkCore.Tools
 ```
 
 5. **Configure DbContext in Startup.cs:**
-   - Update `Startup.cs`
+   - Update `Startup.cs` or `Program.cs`
 ```csharp
-services.AddDbContext<MyDbContext>(options =>
-    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+builder.services.AddDbContext<MyDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 ```
 
 6. **Create DB Context and Model:**
-   - Create own DB Context and model. Example Below
+   - Create your own DB Context and model. Example Below (note update the db context in the step above with the name that you have chosen).
 ```csharp
 public class MyModel
 {
@@ -73,6 +73,7 @@ public class MyDbContext : DbContext
 
 7. **Apply Entity Framework Migrations:**
    - To Run EntityFramework migration use the commands below
+
 ```bash
 dotnet ef migrations add InitialCreate
 dotnet ef database update
