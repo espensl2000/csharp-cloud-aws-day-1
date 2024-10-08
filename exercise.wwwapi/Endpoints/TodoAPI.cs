@@ -55,8 +55,10 @@ namespace exercise.wwwapi.EndPoints
         }
 
         // Update the fields
-        existingTodo.Title = updatedTodo.Title;
-        existingTodo.Completed = updatedTodo.Completed;
+        if (updatedTodo.Title != null)
+          existingTodo.Title = updatedTodo.Title;
+        if (updatedTodo.Completed != null)
+          existingTodo.Completed = updatedTodo.Completed;
 
         // Save changes
         repository.Update(existingTodo);
