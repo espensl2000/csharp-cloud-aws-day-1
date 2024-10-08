@@ -14,8 +14,11 @@
 # Core Activity
 
 ## Set Up Amazon RDS for PostgreSQL
+
 ### Steps
+
 1. **Create an RDS Instance:**
+
    - Open the AWS Management Console and navigate to the RDS service.
    - Click "Create database."
    - Choose the "Standard Create" option.
@@ -30,57 +33,55 @@
    - Click "Create database."
 
 2. **Configure Database Connectivity:**
+
    - After the database is created, navigate to the "Connectivity & security" tab in the newly created database's dashboard. The database's dashboard can be accessed by visiting RDS in the AWS console, then clicking Databases so that you see the list of all databases, followed by clicking the name of the database for which you want to see the dashboard.
    - Make a note of the "Endpoint" and "Port" of the database, you will need these to create the DB connection string.
    - Configure the security group to allow access from your Elastic Beanstalk environment.
 
-3. **Update `appsettings.json`:**
+3. **Create `appsettings.json`:**
+   - Create `appsettings.json` with the contents from `_example.appsettings.json`
+   - Replace the `Host` with the AWS RDS Endpoint
+   - Choose your own database name and assign to `Database`
+   - Replace DB `User Id` and `Password` based on the root username and password you created for RDS
+
 ```json
    "ConnectionStrings": {
        "DefaultConnection": "Host=mydbinstance.endpoint;Database=mydatabase;Username=myadmin;Password=mypassword"
    }
 ```
-4. **Add Required Packages:**
-   - Add Packages to Solution
+
+4. **Install Required Packages:**
+   - The solution already comes with the required packages installed
+   - Install the packages via: `dotnet restore` command
+
+These are the packages that were added to the project:
+
 ```bash
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package newtonsoft.json
 ```
 
-5. **Configure DbContext in Startup.cs:**
-   - Update `Startup.cs`
-```csharp
-services.AddDbContext<MyDbContext>(options =>
-    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-```
-
-6. **Create DB Context and Model:**
-   - Create own DB Context and model. Example Below
-```csharp
-public class MyModel
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
-
-public class MyDbContext : DbContext
-{
-    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
-
-    public DbSet<MyModel> MyModels { get; set; }
-}
-```
-
-7. **Apply Entity Framework Migrations:**
+5. **Apply Entity Framework Migrations:**
    - To Run EntityFramework migration use the commands below
+   - The sample project contains a Todo table, with relevant Db Context
+   - The DB Context seeds 3 Todos when the database is updated
+   - The API has 4 endpoints for CRUD operations on Todos
+   - READ ALL: `GET /todos`
+   - CREATE Todo: `POST /todos` with payload of `Title` and `Completed`
+   - UPDATE Todo: `PUT /todos/:id` with payload of `Title` and `Completed`
+   - DELETE Todo: `DELETE /todos/:id`
+
 ```bash
-dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
 ## Deploy Backend API
+
 ### Steps
+
 1. **Open the AWS Management Console:**
+
    - Navigate to the Elastic Beanstalk service.
    - Click "Create Application."
    - Enter the application name (e.g., MyApiApp).
@@ -89,24 +90,29 @@ dotnet ef database update
 
 2. **Upload and Deploy the Application:**
    - Publish the application:
+
 ```bash
 dotnet publish -c Release -o out
 ```
-   - Compress the published files:
+
+- Compress the published files:
+
 ```bash
 cd out
 zip -r MyApi.zip .
 ```
-   - In the AWS Management Console, navigate to the "Environments" section.
-   - Click "Create environment."
-   - Choose "Web server environment."
-   - Enter the environment name (e.g., MyApiEnv).
-   - For the platform, select ".NET Core."
-   - Under "Application code," choose "Upload your code."
-   - Upload the MyApi.zip file.
-   - Click "Create environment."
+
+- In the AWS Management Console, navigate to the "Environments" section.
+- Click "Create environment."
+- Choose "Web server environment."
+- Enter the environment name (e.g., MyApiEnv).
+- For the platform, select ".NET Core."
+- Under "Application code," choose "Upload your code."
+- Upload the MyApi.zip file.
+- Click "Create environment."
 
 3. **Update Environment Variables:**
+
    - Navigate to the "Configuration" section in your Elastic Beanstalk environment.
    - Edit the "Software" configuration.
    - Add the necessary environment variables for your application.
@@ -115,12 +121,16 @@ zip -r MyApi.zip .
    - Navigate to the URL provided by Elastic Beanstalk to ensure your API is running correctly.
 
 ## Deploy Frontend UI
+
 ### Prerequisites
-   - AWS Account
-   - Frontend application built locally (e.g., React app)
+
+- AWS Account
+- Frontend application built locally (e.g., React app)
 
 ### Steps
+
 1. **Create an S3 Bucket:**
+
    - Open the AWS Management Console and navigate to the S3 service.
    - Click on the "Create bucket" button.
    - Enter a unique bucket name.
@@ -130,15 +140,18 @@ zip -r MyApi.zip .
 
 2. **Upload Frontend Files:**
    - Build your frontend application locally (assuming it’s a React app):
+
 ```bash
 npm run build
 ```
-   - In the AWS Management Console, navigate to the S3 bucket you created.
-   - Click on the "Upload" button.
-   - Click "Add files" and select the files from the build folder.
-   - Click "Upload" to upload the files to the S3 bucket.
+
+- In the AWS Management Console, navigate to the S3 bucket you created.
+- Click on the "Upload" button.
+- Click "Add files" and select the files from the build folder.
+- Click "Upload" to upload the files to the S3 bucket.
 
 3. **Configure Static Website Hosting:**
+
    - In the AWS Management Console, navigate to your S3 bucket.
    - Go to the "Properties" tab.
    - Scroll down to the "Static website hosting" section.
@@ -152,7 +165,8 @@ npm run build
    - Navigate to the "Permissions" tab of your S3 bucket.
    - Click on "Bucket Policy".
    - Add the following policy to allow public read access:
-json
+     json
+
 ```json
 {
   "Version": "2012-10-17",
@@ -167,8 +181,9 @@ json
   ]
 }
 ```
-   - Replace your-bucket-name with the name of your S3 bucket.
-   - Click "Save".
+
+- Replace your-bucket-name with the name of your S3 bucket.
+- Click "Save".
 
 5. **Access the Static Site:**
    - After configuring static website hosting, note the "Bucket website endpoint" URL provided in the static website hosting section.

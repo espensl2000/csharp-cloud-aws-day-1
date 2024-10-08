@@ -1,0 +1,6 @@
+{
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=HOST;Port=5432;Database=CHOSEN_DB_NAME;User Id=postgres;Password=POSTGRES_PWD"
+  }
+}
