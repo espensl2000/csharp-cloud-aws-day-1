@@ -19,9 +19,14 @@
    - Open the AWS Management Console and navigate to the RDS service.
    - Click "Create database."
    - Choose the "Standard Create" option.
-   - Select the PostgreSQL engine.
-   - Configure the DB instance settings (DB instance identifier, master username, password).
-   - Choose the instance type and allocated storage.
+   - Select the `PostgreSQL` engine specifically.
+   - Under `Templates` choose `Free Tier`.
+   - Under `Settings` assign a db name that includes your name; keep the default master username, choose `Self Managed` for credentials and type in a master password (make sure to save this somewhere).
+   - Under `Instance configuration` choose `db.t3.micro`.
+   - Keep the default settings for `Storage`.
+   - Under `Connectivity` keep all default settings, except select `Yes` for `Public access`.
+   - Keep default settings for `Tags` and `Dataabase authentication`.
+   - Under `Monitoring` uncheck `Turn on Performance Insights`, thus disabling monitoring.
    - Click "Create database."
 
 2. **Configure Database Connectivity:**
