@@ -135,11 +135,11 @@ zip -r MyApi.zip .
 
 1. **Create an S3 Bucket:**
 
-   - Open the AWS Management Console and navigate to the S3 service.
-   - Click on the "Create bucket" button.
-   - Enter a unique bucket name.
-   - Choose the AWS region where you want to create the bucket.
-   - Leave the default settings for the remaining options, or configure as needed.
+   - Open the AWS Management Console and navigate to the **S3**.
+   - Click on the **Create bucket** button.
+   - Enter a unique bucket name. (ex **aws-{Firstname+LastName-day-1**) `No Spaces`
+   - Disable Block **Public Access setting for this bucket** (Tick that you Acknowledge this change)
+   - Leave the default settings for the remaining options.
    - Click "Create bucket".
 
 2. **Upload Frontend Files:**
@@ -152,6 +152,7 @@ npm run build
 - In the AWS Management Console, navigate to the S3 bucket you created.
 - Click on the "Upload" button.
 - Click "Add files" and select the files from the build folder.
+- Click "Add folder" and select the **assests** folder from the build folder.
 - Click "Upload" to upload the files to the S3 bucket.
 
 3. **Configure Static Website Hosting:**
@@ -162,7 +163,6 @@ npm run build
    - Click "Edit".
    - Enable static website hosting.
    - Set the index document name (e.g., index.html).
-   - (Optional) Set the error document name if needed (e.g., 404.html).
    - Click "Save changes".
 
 4. **Set Bucket Policy for Public Access:**
@@ -180,7 +180,7 @@ npm run build
       "Effect": "Allow",
       "Principal": "*",
       "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::your-bucket-name/*"
+      "Resource": "arn:aws:s3:::aws-day-1-ajdewilzin/*"
     }
   ]
 }
