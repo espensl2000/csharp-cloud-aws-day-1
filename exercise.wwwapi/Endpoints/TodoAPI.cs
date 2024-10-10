@@ -7,10 +7,23 @@ namespace exercise.wwwapi.EndPoints
   {
     public static void ConfigureTodoAPI(this WebApplication app)
     {
-      app.MapGet("/todos", GetTodos);
+            app.MapGet("/", GetIndex);
+            app.MapGet("/todos", GetTodos);
       app.MapPost("/todos", CreateTodo);
       app.MapPut("/todos/{id:int}", UpdateTodo);
       app.MapDelete("/todos/{id:int}", DeleteTodo);
+    }
+
+    private static async Task<IResult> GetIndex(IDatabaseRepository<Todo> repository)
+    {
+        try
+        {
+            return Results.Ok("Working");
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
+        }
     }
 
     private static async Task<IResult> GetTodos(IDatabaseRepository<Todo> repository)

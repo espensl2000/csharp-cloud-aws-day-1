@@ -79,16 +79,7 @@ dotnet ef database update
 ## Deploy Backend API
 
 ### Steps
-
-1. **Open the AWS Management Console:**
-
-   - Navigate to the Elastic Beanstalk service.
-   - Click "Create Application."
-   - Enter the application name (e.g., MyApiApp).
-   - Choose the .NET platform.
-   - Click "Create application."
-
-2. **Upload and Deploy the Application:**
+1. **Build API and Compress**
    - Publish the application:
 
 ```bash
@@ -102,23 +93,37 @@ cd out
 zip -r MyApi.zip .
 ```
 
-- In the AWS Management Console, navigate to the "Environments" section.
-- Click "Create environment."
-- Choose "Web server environment."
-- Enter the environment name (e.g., MyApiEnv).
-- For the platform, select ".NET Core."
-- Under "Application code," choose "Upload your code."
-- Upload the MyApi.zip file.
-- Click "Create environment."
+2. **Open the AWS Management Console:**
 
-3. **Update Environment Variables:**
+   - Navigate to the Elastic Beanstalk service.
+   - Click "Create Application."
+   - Enter the application name (e.g., aws-day-1-{studentName}-api).
+   - Description is Optional.
+   - Click Create
 
-   - Navigate to the "Configuration" section in your Elastic Beanstalk environment.
-   - Edit the "Software" configuration.
-   - Add the necessary environment variables for your application.
-
-4. **Test the API:**
-   - Navigate to the URL provided by Elastic Beanstalk to ensure your API is running correctly.
+3. **Create and Environment for you Application**
+   - Click on **Create new Environment**.
+   - Follow the steps **EXACTLY**.
+      1. ### Configure environment
+         - Environment tier choose **Web Server environment**.
+         - Platform choose **.Net Core on Linux**.
+         - Application Code pick **Upload your code**.
+            - Then choose your local compress file.
+            - Add your own version Label (e.g. v1, v1.1 etc).
+         - Preset pick **High availability**
+         - Click on **Next**
+      2. ### Configure service access
+         - Leave everything as it is.
+         - No Changes to be made. 
+         - Click on **Skip to review**
+      3. ### Edit Step 4 
+         - Root volume type **General Purpose 3(SSD)**.
+         - Instance types remove **t3.small**. (Only **t3.micro** should be left.)
+         - Click on **Skip to review**
+      3. ### Edit Step 5 (Optional to run Development environment)
+         - Environment properties Add a key value pair **ASPNETCORE_ENVIRONMENT: Development**.
+         - Click on **Next**
+   - Click on **Submit**
 
 ## Deploy Frontend UI
 
