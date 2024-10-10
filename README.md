@@ -36,7 +36,6 @@
 
    - After the database is created, navigate to the "Connectivity & security" tab in the newly created database's dashboard. The database's dashboard can be accessed by visiting RDS in the AWS console, then clicking Databases so that you see the list of all databases, followed by clicking the name of the database for which you want to see the dashboard.
    - Make a note of the "Endpoint" and "Port" of the database, you will need these to create the DB connection string.
-   - Configure the security group to allow access from your Elastic Beanstalk environment.
 
 3. **Create `appsettings.json`:**
    - Create `appsettings.json` with the contents from `_example.appsettings.json`
